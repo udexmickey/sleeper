@@ -1,13 +1,30 @@
 services:
   reservations:
+    container_name: sleeper-reservations-one
     build:
       context: .
-      dockerfile: ./app/reservations/Dockerfile
+      dockerfile: ./apps/reservations/Dockerfile
       target: development
     command: pnpm run start:dev reservations
+    env_file:
+      - ./apps/reservations/.env
     ports:
       - '5000:5000'
     volumes:
       - .:/usr/src/app
+  auth:
+    container_name: sleeper-auth-one
+    build:
+      context: .
+      dockerfile: ./apps/auth/Dockerfile
+      target: development
+    command: pnpm run start:dev auth
+    env_file:
+      - ./apps/auth/.env
+    ports:
+      - '3000:3000'
+    volumes:
+      - .:/usr/src/app
   mongo:
+    container_name: sleeper-mongo-one
     image: mongo
