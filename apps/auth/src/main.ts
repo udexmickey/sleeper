@@ -1,10 +1,10 @@
 import { NestFactory } from '@nestjs/core';
-import { ReservationsModule } from './reservations.module';
+import { AuthModule } from './auth.module';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
-  const app = await NestFactory.create(ReservationsModule);
+  const app = await NestFactory.create(AuthModule);
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -12,10 +12,7 @@ async function bootstrap() {
   );
   const configService = app.get<ConfigService>(ConfigService);
   await app.listen(configService.get('PORT'), () =>
-    console.log(
-      'Reservations-App listening on part',
-      configService.get('PORT'),
-    ),
+    console.log('Auth-App listening on part', configService.get('PORT')),
   );
 }
 bootstrap();
