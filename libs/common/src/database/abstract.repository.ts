@@ -22,9 +22,12 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
     return allDocuments;
   }
 
-  async findOne(filterQuery: FilterQuery<TDocument>): Promise<TDocument> {
+  async findOne(
+    filterQuery: FilterQuery<TDocument>,
+    unSelect?: string,
+  ): Promise<TDocument> {
     const findDocument = await this.model
-      .findOne(filterQuery)
+      .findOne(filterQuery, unSelect)
       .lean<TDocument>(true);
 
     if (!findDocument) {

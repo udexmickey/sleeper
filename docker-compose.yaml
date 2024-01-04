@@ -12,6 +12,8 @@ services:
       - '5000:5000'
     volumes:
       - .:/usr/src/app
+    depends_on:
+      - mongo
   auth:
     container_name: sleeper-auth-one
     build:
@@ -28,3 +30,12 @@ services:
   mongo:
     container_name: sleeper-mongo-one
     image: mongo
+    ports:
+      - '27017:27017'
+    # volumes:
+    #   - ./data:/data/db  // Using this docker volume like this will create a data folder in the current root directory
+    volumes:
+      - mongo:/data/db
+      # - mongo:/data/db Using this docker volume like this will create a data folder in the current root directory and managed by docker
+volumes:
+  mongo: {}
