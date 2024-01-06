@@ -35,7 +35,7 @@ export class AuthService {
       expires.getSeconds() + this.configService.get('JWT_EXPIRE_TIME'),
     );
 
-    response.cookie('Authentication-jwt', token, {
+    response.cookie('Authentication', token, {
       httpOnly: true,
       expires,
       // secure: this.configService.get('NODE_ENV') === 'production',

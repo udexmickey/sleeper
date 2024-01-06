@@ -39,16 +39,16 @@ export class UsersService {
   }
 
   async create(createUserDto: CreateUserDto) {
-    // try {
-    await this.validateUserEmail(createUserDto);
+    try {
+      await this.validateUserEmail(createUserDto);
 
-    return await this.userRepository.create({
-      ...createUserDto,
-      password: await bcrypt.hash(createUserDto.password, 10),
-    });
-    // } catch (error) {
-    //   throw new HttpException(error.message, error.statusCode);
-    // }
+      return await this.userRepository.create({
+        ...createUserDto,
+        password: await bcrypt.hash(createUserDto.password, 10),
+      });
+    } catch (error) {
+      throw new HttpException(error.message, error.statusCode);
+    }
   }
 
   async validateUserEmail(createUserDto: CreateUserDto) {
