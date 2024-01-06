@@ -3,6 +3,8 @@ FROM node:16.20.2-alpine AS development
 
 WORKDIR /usr/src/app
 
+ENV  NODE_ENV=development
+
 # Copy package files for better caching
 COPY package*.json ./
 COPY pnpm-lock.yaml ./
@@ -14,8 +16,7 @@ RUN npm install -g pnpm && \
 # Copy the rest of the application files
 COPY . .
 
-# Build the application
-RUN pnpm run build
+RUN pnpm build
 
 # Production stage
 FROM node:16.20.2-alpine AS production
@@ -26,7 +27,7 @@ ENV NODE_ENV=${NODE_ENV}
 WORKDIR /usr/src/app
 
 # Copy package files for better caching
-COPY package.json ./
+COPY package*.json ./
 COPY pnpm-lock.yaml ./
 
 # Install pnpm globally and install production dependencies
@@ -37,4 +38,4 @@ RUN npm install -g pnpm && \
 COPY --from=development /usr/src/app/dist ./dist
 
 # Command to run the application
-CMD [ "node", "dist/apps/reservations/main" ]
+CMD ["node", "dist/apps/payments/main"]
